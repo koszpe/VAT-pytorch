@@ -2,7 +2,7 @@ from collections import OrderedDict
 import logging
 import logzero
 from pathlib import Path
-from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 import torch
 
 

@@ -1,4 +1,6 @@
 import argparse
+import os
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -111,6 +113,7 @@ def main():
                         help='random seed (default: 1)')
     parser.add_argument('--log-interval', type=int, default=100, metavar='N',
                         help='how many batches to wait before logging training status')
+    parser.add_argument("--gpu_mask", type=str, default="1")
     args = parser.parse_args()
 
     torch.manual_seed(args.seed)
@@ -118,8 +121,11 @@ def main():
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+    if device == "cuda":
+        os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_mask
+
     data_iterators = data_utils.get_iters(
-        root_path='.',
+        root_path='/cache/vat/',
         l_batch_size=args.batch_size,
         ul_batch_size=args.batch_size,
         test_batch_size=args.test_batch_size,
